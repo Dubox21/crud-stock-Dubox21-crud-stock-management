@@ -8,11 +8,31 @@ const initialForm = {
     id: null
 }
 
-const CrudForm = () => {
+const CrudForm = ({ createData, updateData, dataToEdit, setDataToEdit }) => {
     const [form, setForm] = useState(initialForm);
-    const handleChange = (e) => { }
-    const handleSubmit = (e) => { }
-    const handleReset = (e) => { }
+
+    const handleChange = (e) => {
+        setForm({
+            ...form,
+            [e.target.name]: e.target.value,
+        });
+    };
+
+    const handleSubmit = (e) => {
+        e.preventDefault();
+        if (form.id === null) {
+            createData(form);
+        } else {
+            updateData(form);
+        }
+
+        handleReset();
+    };
+
+    const handleReset = (e) => {
+        setForm(initialForm);
+        setDataToEdit(null);
+    };
 
     return (
         <div>
@@ -23,7 +43,7 @@ const CrudForm = () => {
                 <input type='number' name='price' placeholder='Precio' onChange={handleChange} value={form.price} />
                 <input type='number' name='quantity' placeholder='Cantidad Disponible' onChange={handleChange} value={form.quantity} />
                 <input type='submit' value='Enviar' />
-                <input type='reset' value='Limpiar' onClick={handleReset}/>
+                <input type='reset' value='Limpiar' onClick={handleReset} />
             </form>
         </div>
     )
