@@ -14,10 +14,11 @@ const CrudApp = () => {
   });
 
   const selectProduct = (product, option) => {
-    setProducts(product);
     if (option === "Editar") {
         console.log("El producto se seleccionó para edición");
-        setDataToEdit(product); // Establecer el producto seleccionado para edición
+        setDataToEdit(product);
+    } else {
+        setProducts(product);
     }
 }
 
@@ -54,4 +55,4 @@ const CrudApp = () => {
   )
 }
 
-export default CrudApp
+export default CrudApp;

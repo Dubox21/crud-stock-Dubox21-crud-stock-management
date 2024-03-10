@@ -37,7 +37,10 @@ const CrudTable = ({ baseURL, selectProduct }) => {
                         <tr><td colSpan="5">Sin datos</td></tr>
                     ) : (
                         data.map(product => (
-                            <CrudTableRow key={product.ProductsID} product={product} selectProduct={selectProduct} />
+                            <CrudTableRow
+                                key={product.ProductsID}
+                                product={product}
+                                selectProduct={selectProduct} />
                         )))}
                 </tbody>
             </table>

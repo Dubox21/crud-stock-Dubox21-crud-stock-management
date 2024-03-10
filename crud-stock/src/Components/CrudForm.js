@@ -19,18 +19,19 @@ const CrudForm = ({ dataToEdit, setDataToEdit, baseURL }) => {
         console.log(products);
     }
 
-    // useEffect(() => {
-    //     if (dataToEdit) {
-    //         setProducts(dataToEdit);
-    //     } else {
-    //         setProducts();
-    //     }
-    // }, [dataToEdit])
+    useEffect(() => {
+        if (dataToEdit) {
+            setProducts(dataToEdit);
+        } else {
+            setProducts();
+        }
+    }, [dataToEdit])
+
     const handleSubmit = async (e) => {
         e.preventDefault();
         if (products.ProductsID === '') {
             await requestsPost(products);
-        } else { 
+        } else {
             // Enviar para editar
         }
         window.location.reload(); // Evitar recargar la página
@@ -53,7 +54,7 @@ const CrudForm = ({ dataToEdit, setDataToEdit, baseURL }) => {
 
     return (
         <div>
-            <h3> Agregar</h3>
+            <h3>{dataToEdit ? "Editar" : "Agregar"}</h3>
             <form onSubmit={handleSubmit}>
                 <input type='text' name='Name' placeholder='Nombre' onChange={handleChange} value={products && products.Name} />
                 <input type='text' name='Description' placeholder='Descripción' onChange={handleChange} value={products && products.Description} />
