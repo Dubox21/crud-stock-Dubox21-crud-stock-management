@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import CrudForm from './CrudForm';
 import CrudTable from './CrudTable';
+import CrudBD from './CrudBD'; 
 
 const initialDB = [
   {
@@ -49,15 +50,18 @@ const CrudApp = () => {
   return (
     <div>
       <h2>CRUD APP</h2>
-      <CrudForm
-        createData={createData}
-        updateData={updateData}
-        dataToEdit={dataToEdit}
-        setDataToEdit={setDataToEdit} />
-      <CrudTable
-        data={db}
-        setDataToEdit={setDataToEdit}
-        deleteData={deleteData} />
+      <article className="grid-1-2">
+        <CrudForm
+          createData={createData}
+          updateData={updateData}
+          dataToEdit={dataToEdit}
+          setDataToEdit={setDataToEdit} />
+        <CrudTable
+          data={db}
+          setDataToEdit={setDataToEdit}
+          deleteData={deleteData} />
+                <CrudBD/>
+      </article>
     </div>
   )
 }
