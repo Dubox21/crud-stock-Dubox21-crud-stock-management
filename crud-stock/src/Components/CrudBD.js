@@ -4,6 +4,21 @@ import axios from 'axios';
 const CrudBD = () => {
     const baseURL = "http://localhost:80/crudApp/index.php";
     const [data, setData] = useState([]);
+    const [products, setProducts] = useState({
+        ProductsID: '',
+        Name: '',
+        Description: '',
+        Price: '',
+        AvailableQuantity: ''
+    });
+
+    const handleChange = e => {
+        const { name, value } = e.target;
+        setProducts((prevState) => ({
+            ...prevState,
+            [name]: value
+        }))
+    }
 
     const requestsGet = async () => {
         await axios.get(baseURL)
@@ -34,19 +49,19 @@ const CrudBD = () => {
                 </thead>
                 <tbody>
                     {data.map(products => (
-                        
-                            <tr key={products.ProductsID}>
-                                <td>{products.ProductsID}</td>
-                                <td>{products.Name}</td>
-                                <td>{products.Description}</td>
-                                <td>{products.Price}</td>
-                                <td>{products.AvailableQuantity}</td>
-                                <td>
-                                    <button>Editar</button>
-                                    <button>Eliminar</button>
-                                </td>
-                            </tr>
-                   
+
+                        <tr key={products.ProductsID}>
+                            <td>{products.ProductsID}</td>
+                            <td>{products.Name}</td>
+                            <td>{products.Description}</td>
+                            <td>{products.Price}</td>
+                            <td>{products.AvailableQuantity}</td>
+                            <td>
+                                <button>Editar</button>
+                                <button>Eliminar</button>
+                            </td>
+                        </tr>
+
                     ))}
                 </tbody>
             </table>
