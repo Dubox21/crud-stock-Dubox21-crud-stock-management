@@ -5,22 +5,20 @@ import CrudTable from './CrudTable';
 const CrudApp = () => {
   const baseURL = "http://localhost:80/crudApp/index.php";
   const [dataToEdit, setDataToEdit] = useState(null);
-  const [products, setProducts] = useState({
-    ProductsID: '',
-    Name: '',
-    Description: '',
-    Price: '',
-    AvailableQuantity: ''
-  });
+  const [isEditing, setIsEditing] = useState(false);
+  const [editMethod, setEditMethod] = useState('POST');
 
   const selectProduct = (product, option) => {
     if (option === "Editar") {
-        console.log("El producto se seleccionó para edición");
-        setDataToEdit(product);
+      setIsEditing(true);
+      setDataToEdit(product);
+      setEditMethod('PUT');
     } else {
-        setProducts(product);
+      setIsEditing(false);
+      setDataToEdit(null);
+      setEditMethod('POST');
     }
-}
+  }
 
   // const deleteData = (id) => {
   //   let isDelete = window.confirm(
@@ -40,11 +38,12 @@ const CrudApp = () => {
       <h2>CRUD APP</h2>
       <article className="grid-1-2">
         <CrudForm
-          products={products}
-          setProducts={setProducts}
+          isEditing={isEditing}
           dataToEdit={dataToEdit}
           setDataToEdit={setDataToEdit}
-          baseURL={baseURL} />
+          baseURL={baseURL}
+          editMethod={editMethod}
+        />
         <CrudTable
           baseURL={baseURL}
           selectProduct={selectProduct}
