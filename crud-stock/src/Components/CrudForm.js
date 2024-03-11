@@ -1,7 +1,12 @@
-import React, { useState, useEffect } from 'react';
-import CrudTableRow from './CrudTableRow';
+import React, {useEffect} from 'react';
 
-const CrudForm = ({ isEditing, products, setProducts, requestsPost, requestsPut }) => {
+const CrudForm = ({ isEditing, products, setProducts, requestsPost, requestsPut, dataToEdit }) => {
+
+    useEffect(() => {
+        if (isEditing && dataToEdit) {
+          setProducts(dataToEdit);
+        }
+      }, [isEditing, dataToEdit]);
 
     const handleChange = e => {
         const { name, value } = e.target;
