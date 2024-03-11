@@ -1,9 +1,7 @@
-import React, { useState, useEffect } from 'react';
-import axios from 'axios';
+import React, { useEffect } from 'react';
 import CrudTableRow from './CrudTableRow';
 
 const CrudTable = ({ data, selectProduct, requestsDelete, requestsGet }) => {
-
 
     useEffect(() => {
         requestsGet();

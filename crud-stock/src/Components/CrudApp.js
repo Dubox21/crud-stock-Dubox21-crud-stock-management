@@ -156,21 +156,14 @@ const CrudApp = () => {
         <Modal isOpen={isOpenModal} closeModal={closeModal}>
           <CrudForm
             isEditing={isEditing}
-            dataToEdit={dataToEdit}
-            setDataToEdit={setDataToEdit}
-            baseURL={baseURL}
-            editMethod={editMethod}
-            requestsGet={requestsGet}
             requestsPost={requestsPost}
             requestsPut={requestsPut}
-            requestsDelete={requestsDelete}
             products={products}
             setProducts={setProducts}
           />
         </Modal>
         {showInventory ? (
           <CrudTable
-            baseURL={baseURL}
             selectProduct={selectProduct}
             requestsGet={requestsGet}
             requestsDelete={requestsDelete}
