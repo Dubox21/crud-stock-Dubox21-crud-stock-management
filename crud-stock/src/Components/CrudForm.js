@@ -1,14 +1,7 @@
 import React, { useState, useEffect } from 'react';
-import axios from 'axios';
+import CrudTableRow from './CrudTableRow';
 
-const CrudForm = ({ isEditing, dataToEdit, setDataToEdit, baseURL, editMethod }) => {
-    const [products, setProducts] = useState({
-        ProductsID: '',
-        Name: '',
-        Description: '',
-        Price: '',
-        AvailableQuantity: ''
-    });
+const CrudForm = ({ isEditing, products, setProducts, requestsPost, requestsPut }) => {
 
     const handleChange = e => {
         const { name, value } = e.target;
@@ -19,76 +12,17 @@ const CrudForm = ({ isEditing, dataToEdit, setDataToEdit, baseURL, editMethod })
         console.log(products);
     }
 
-    useEffect(() => {
-        if (dataToEdit) {
-            setProducts(dataToEdit);
-        } else {
-            setProducts({
-                ProductsID: '',
-                Name: '',
-                Description: '',
-                Price: '',
-                AvailableQuantity: ''
-            });
-        }
-    }, [dataToEdit])
-
     const handleSubmit = async (e) => {
         e.preventDefault();
+
         if (isEditing) {
             await requestsPut(products);
         } else {
             await requestsPost(products);
         }
+
         window.location.reload(); // Recargar la página después de enviar el formulario
     };
-
-    const requestsPost = async (products) => {
-        const formData = new FormData();
-        formData.append("Name", products.Name);
-        formData.append("Description", products.Description);
-        formData.append("Price", products.Price);
-        formData.append("AvailableQuantity", products.AvailableQuantity);
-        formData.append("METHOD", "POST");
-        try {
-            const response = await axios.post(baseURL, formData);
-            setDataToEdit(null);
-            console.log(response.data);
-        } catch (error) {
-            console.log(error);
-        }
-    }
-
-    const requestsPut = async (products) => {
-        const formData = new FormData();
-        formData.append("Name", products.Name);
-        formData.append("Description", products.Description);
-        formData.append("Price", products.Price);
-        formData.append("AvailableQuantity", products.AvailableQuantity);
-        formData.append("METHOD", "PUT");
-        await axios.post(baseURL, formData, { params: { ProductsID: products.ProductsID } })
-            .then(response => {
-                var dataNew = dataToEdit;
-                if (Array.isArray(dataNew)) { // Comprobar si dataNew es un array
-                    dataNew = dataNew.map(product => {
-                        if (product.ProductsID === products.ProductsID) {
-                            return {
-                                ...product,
-                                Name: products.Name,
-                                Description: products.Description,
-                                Price: products.Price,
-                                AvailableQuantity: products.AvailableQuantity
-                            };
-                        } else {
-                            return product;
-                        }
-                    });
-                    setDataToEdit(dataNew);
-                }
-            }).catch(error => {
-                console.log(error);
-            });
-    }
 
     return (
         <div>

@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import CrudTableRow from './CrudTableRow';
 
-const CrudTable = ({ baseURL, selectProduct }) => {
+const CrudTable = ({ baseURL, selectProduct, requestsDelete }) => {
     const [data, setData] = useState([]);
 
     const requestsGet = async () => {
@@ -40,7 +40,8 @@ const CrudTable = ({ baseURL, selectProduct }) => {
                             <CrudTableRow
                                 key={product.ProductsID}
                                 product={product}
-                                selectProduct={selectProduct} />
+                                selectProduct={selectProduct}
+                                requestsDelete={requestsDelete}/>
                         )))}
                 </tbody>
             </table>

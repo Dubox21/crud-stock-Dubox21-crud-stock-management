@@ -1,8 +1,20 @@
 import React from 'react';
 
-const CrudTableRow = ({ product, selectProduct }) => {
+const CrudTableRow = ({ product, selectProduct, requestsDelete }) => {
+    const handleDelete = () => {
+        let isDelete = window.confirm(
+            `¿Estas seguro de eliminar el producto '${product.Name}' con el id '${product.ProductsID}'?`
+        );
+        if (isDelete) {
+            requestsDelete(product); // Llama a la función requestsDelete con el producto como argumento
+            window.location.reload();
+        } else {
+            return
+        }
+    };
+
     return (
-        <tr>
+        <tr key={product.ProductsID}>
             <td>{product.ProductsID}</td>
             <td>{product.Name}</td>
             <td>{product.Description}</td>
@@ -10,7 +22,7 @@ const CrudTableRow = ({ product, selectProduct }) => {
             <td>{product.AvailableQuantity}</td>
             <td>
                 <button onClick={() => selectProduct(product, "Editar")}>Editar</button>
-                <button>Eliminar</button>
+                <button onClick={handleDelete}>Eliminar</button>
             </td>
         </tr>
     );
