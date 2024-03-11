@@ -7,7 +7,7 @@ const CrudTableRow = ({ product, selectProduct, requestsDelete }) => {
         );
         if (isDelete) {
             requestsDelete(product); // Llama a la función requestsDelete con el producto como argumento
-            window.location.reload();
+            
         } else {
             return
         }

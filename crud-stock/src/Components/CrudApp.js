@@ -6,6 +6,7 @@ import Modal from './Modal';
 import { useModal } from '../hooks/useModal';
 
 const CrudApp = () => {
+  const [data, setData] = useState([]);
   const [isOpenModal, openModal, closeModal] = useModal(false);
   const [showInventory, setShowInventory] = useState(false); // Estado para controlar si se muestra el inventario
   const baseURL = "http://localhost:80/crudApp/index.php";
@@ -32,10 +33,37 @@ const CrudApp = () => {
         AvailableQuantity: ''
       });
     }
-  }, [dataToEdit])
+  }, [dataToEdit]);
+
+  useEffect(() => {
+    // Resetea isEditing cuando el modal esta cerrado
+    if (!isOpenModal) {
+      setIsEditing(false);
+    }
+  }, [isOpenModal]);
+
+  const resetForm = () => {
+    setProducts({
+      ProductsID: '',
+      Name: '',
+      Description: '',
+      Price: '',
+      AvailableQuantity: ''
+    });
+  };
 
   const toggleInventory = () => {
     setShowInventory(!showInventory); // Alternar entre mostrar y ocultar inventario
+  }
+
+
+  const requestsGet = async () => {
+    try {
+      const response = await axios.get(baseURL);
+      setData(response.data);
+    } catch (error) {
+      console.log(error);
+    }
   }
 
   const requestsPost = async (products) => {
@@ -94,6 +122,8 @@ const CrudApp = () => {
         if (dataToEdit !== null) {
           setDataToEdit(prevData => prevData.filter(item => item.ProductsID !== product.ProductsID));
         }
+        requestsGet(); // Obtener los datos actualizados
+        closeModal(); // Cerrar el modal si está abierto
       }).catch(error => {
         console.log(error);
       });
@@ -103,6 +133,7 @@ const CrudApp = () => {
     if (option === "Editar") {
       setIsEditing(true);
       setDataToEdit(product);
+      setProducts(product); // Establecer los datos del producto en el formulario
       openModal();
       setEditMethod('PUT');
     } else if (option === "Eliminar") {
@@ -117,7 +148,11 @@ const CrudApp = () => {
       <h2>CRUD APP</h2>
       <article className="grid-1-2">
         <button onClick={toggleInventory}>{showInventory ? 'Ocultar Info' : 'Consultar Inventario'}</button>
-        <button onClick={openModal}>Agregar Producto</button>
+        <button onClick={() => {
+          setIsEditing(false); // Set isEditing es falso cuando se hace click en "Agregar Producto"
+          resetForm();
+          openModal();
+        }}>Agregar Producto</button>
         <Modal isOpen={isOpenModal} closeModal={closeModal}>
           <CrudForm
             isEditing={isEditing}
@@ -125,6 +160,7 @@ const CrudApp = () => {
             setDataToEdit={setDataToEdit}
             baseURL={baseURL}
             editMethod={editMethod}
+            requestsGet={requestsGet}
             requestsPost={requestsPost}
             requestsPut={requestsPut}
             requestsDelete={requestsDelete}
@@ -136,10 +172,12 @@ const CrudApp = () => {
           <CrudTable
             baseURL={baseURL}
             selectProduct={selectProduct}
+            requestsGet={requestsGet}
             requestsDelete={requestsDelete}
+            data={data}
           />
         ) : (
-          <img src={require("../Assets/img01.png") } alt="Imagen" />
+          <img src={require("../Assets/img01.png")} alt="Imagen" />
         )}
       </article>
     </div>

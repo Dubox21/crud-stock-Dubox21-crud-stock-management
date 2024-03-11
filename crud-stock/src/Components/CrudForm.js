@@ -1,12 +1,6 @@
-import React, {useEffect} from 'react';
+import React from 'react';
 
-const CrudForm = ({ isEditing, products, setProducts, requestsPost, requestsPut, dataToEdit }) => {
-
-    useEffect(() => {
-        if (isEditing && dataToEdit) {
-          setProducts(dataToEdit);
-        }
-      }, [isEditing, dataToEdit]);
+const CrudForm = ({ isEditing, products, setProducts, requestsPost, requestsPut }) => {
 
     const handleChange = e => {
         const { name, value } = e.target;
@@ -22,21 +16,22 @@ const CrudForm = ({ isEditing, products, setProducts, requestsPost, requestsPut,
 
         if (isEditing) {
             await requestsPut(products);
+            alert("El producto se editó correctamente.");
         } else {
             await requestsPost(products);
+            alert("El producto se agregó correctamente.");
         }
-
-        window.location.reload(); // Recargar la página después de enviar el formulario
+        window.location.reload();
     };
 
     return (
         <div>
             <h3>{isEditing ? "Editar" : "Agregar"}</h3>
             <form onSubmit={handleSubmit}>
-                <input type='text' name='Name' placeholder='Nombre' onChange={handleChange} value={products.Name} />
-                <input type='text' name='Description' placeholder='Descripción' onChange={handleChange} value={products.Description} />
-                <input type='number' name='Price' placeholder='Precio' onChange={handleChange} value={products.Price} />
-                <input type='number' name='AvailableQuantity' placeholder='Cantidad Disponible' onChange={handleChange} value={products.AvailableQuantity} />
+                <input type='text' name='Name' placeholder='Nombre' onChange={handleChange} value={products.Name} required/>
+                <input type='text' name='Description' placeholder='Descripción' onChange={handleChange} value={products.Description} required/>
+                <input type='number' name='Price' placeholder='Precio' onChange={handleChange} value={products.Price} required/>
+                <input type='number' name='AvailableQuantity' placeholder='Cantidad Disponible' onChange={handleChange} value={products.AvailableQuantity} required/>
                 <input type='submit' value={isEditing ? 'Editar' : 'Enviar'} />
                 <input type='reset' value='Limpiar' />
             </form>

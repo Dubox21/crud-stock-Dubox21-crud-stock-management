@@ -2,17 +2,8 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import CrudTableRow from './CrudTableRow';
 
-const CrudTable = ({ baseURL, selectProduct, requestsDelete }) => {
-    const [data, setData] = useState([]);
+const CrudTable = ({ data, selectProduct, requestsDelete, requestsGet }) => {
 
-    const requestsGet = async () => {
-        try {
-            const response = await axios.get(baseURL);
-            setData(response.data);
-        } catch (error) {
-            console.log(error);
-        }
-    }
 
     useEffect(() => {
         requestsGet();
