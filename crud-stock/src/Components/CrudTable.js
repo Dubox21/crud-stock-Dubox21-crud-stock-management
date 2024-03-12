@@ -23,7 +23,7 @@ const CrudTable = ({ data, selectProduct, requestsDelete, requestsGet }) => {
                 </thead>
                 <tbody>
                     {data.length === 0 ? (
-                        <tr><td colSpan="5">Sin datos</td></tr>
+                        <tr><td colSpan="5">"Estimado usuario, en estos momentos el acceso a la BD no esta disponible"</td></tr>
                     ) : (
                         data.map(product => (
                             <CrudTableRow
