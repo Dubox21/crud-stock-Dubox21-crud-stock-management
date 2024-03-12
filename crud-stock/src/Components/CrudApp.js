@@ -56,7 +56,6 @@ const CrudApp = () => {
     setShowInventory(!showInventory); // Alternar entre mostrar y ocultar inventario
   }
 
-
   const requestsGet = async () => {
     try {
       const response = await axios.get(baseURL);
